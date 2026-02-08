@@ -4,44 +4,44 @@ const services = [
   {
     icon: Monitor,
     title: "IT Consulting",
-    desc: "Strategic technology consulting to align your IT infrastructure with business goals.",
+    desc: "Strategic technology consulting to align your IT infrastructure with business goals and drive digital transformation.",
   },
   {
     icon: Shield,
     title: "Cybersecurity",
-    desc: "Comprehensive security solutions to protect your organization from evolving threats.",
+    desc: "Comprehensive security solutions to protect your organization from evolving threats and ensure compliance.",
   },
   {
     icon: Cloud,
     title: "Cloud Solutions",
-    desc: "Migration, management and optimization of cloud infrastructure for maximum efficiency.",
+    desc: "Migration, management and optimization of cloud infrastructure on AWS, Azure, and hybrid environments.",
   },
   {
     icon: Headphones,
     title: "Technical Support",
-    desc: "24/7 expert support to keep your systems running smoothly and your team productive.",
+    desc: "24/7 expert support to keep your systems running smoothly and your team productive with rapid response times.",
   },
   {
     icon: Server,
     title: "Infrastructure",
-    desc: "Design, deployment and management of robust IT infrastructure tailored to your needs.",
+    desc: "Design, deployment and management of robust IT infrastructure tailored to your specific business needs.",
   },
   {
     icon: Settings,
     title: "System Administration",
-    desc: "Proactive system administration including SCCM, Citrix, and enterprise platforms.",
+    desc: "Proactive system administration including SCCM, Citrix, Active Directory, and enterprise platforms.",
   },
 ];
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="py-24 bg-background">
+    <section id="services" className="py-24 bg-hero-dark">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <p className="text-secondary font-semibold text-sm tracking-[0.2em] uppercase mb-3">
+          <p className="text-gold font-semibold text-sm tracking-[0.2em] uppercase mb-4">
             What We Do
           </p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight">
             Services We Provide
           </h2>
         </div>
@@ -50,15 +50,15 @@ const ServicesSection = () => {
           {services.map((s) => (
             <div
               key={s.title}
-              className="group p-8 rounded-lg border border-border bg-card hover:bg-primary transition-colors duration-300 cursor-default"
+              className="group p-8 border border-white/10 bg-white/5 hover:bg-gold hover:border-gold transition-all duration-300 cursor-default"
             >
-              <div className="w-12 h-12 rounded-md bg-secondary/15 group-hover:bg-secondary/20 flex items-center justify-center mb-5 transition-colors">
-                <s.icon className="w-6 h-6 text-secondary" />
+              <div className="w-14 h-14 border border-gold/50 group-hover:border-section-dark flex items-center justify-center mb-6 transition-colors">
+                <s.icon className="w-7 h-7 text-gold group-hover:text-section-dark transition-colors" />
               </div>
-              <h3 className="font-display text-xl font-semibold text-foreground group-hover:text-primary-foreground mb-3 transition-colors">
+              <h3 className="font-display text-xl font-semibold text-primary-foreground group-hover:text-section-dark mb-4 transition-colors">
                 {s.title}
               </h3>
-              <p className="text-muted-foreground group-hover:text-primary-foreground/70 text-sm leading-relaxed transition-colors">
+              <p className="text-primary-foreground/60 group-hover:text-section-dark/80 text-sm leading-relaxed transition-colors">
                 {s.desc}
               </p>
             </div>
