@@ -33,7 +33,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <p className="text-primary-foreground/40 text-sm text-center md:text-right">
-            Copyright ©{new Date().getFullYear()} Ubersoft Consulting Inc. All rights reserved
+            Copyright © {new Date().getFullYear()} Ubersoft Consulting Inc. All rights reserved
           </p>
         </div>
       </div>
