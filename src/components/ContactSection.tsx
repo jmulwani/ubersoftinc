@@ -25,18 +25,6 @@ const ContactSection = () => {
               info@ubersoftinc.com
             </span>
           </a>
-
-          <a
-            href="tel:+16478990032"
-            className="flex items-center gap-4 group"
-          >
-            <div className="w-14 h-14 border border-gold/50 flex items-center justify-center flex-shrink-0 group-hover:bg-gold transition-colors">
-              <Phone className="w-6 h-6 text-gold group-hover:text-section-dark transition-colors" />
-            </div>
-            <span className="text-primary-foreground/80 group-hover:text-gold transition-colors text-lg">
-              +1 647-899-0032
-            </span>
-          </a>
         </div>
       </div>
     </section>
