@@ -1,4 +1,4 @@
-import { Mail, Phone, ArrowUpRight } from "lucide-react";
+import { Mail, ArrowUpRight } from "lucide-react";
 import Reveal from "@/components/anim/Reveal";
 import SpotlightCard from "@/components/anim/SpotlightCard";
 
@@ -8,12 +8,6 @@ const channels = [
     label: "Email Us",
     value: "info@ubersoftinc.com",
     href: "mailto:info@ubersoftinc.com",
-  },
-  {
-    icon: Phone,
-    label: "Call Us",
-    value: "+1 647-899-0032",
-    href: "tel:+16478990032",
   },
 ];
 
@@ -46,7 +40,7 @@ const ContactSection = () => {
           </Reveal>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        <div className="grid gap-6 max-w-md mx-auto">
           {channels.map((c, i) => (
             <Reveal key={c.label} delay={300 + i * 120}>
               <a href={c.href} className="block h-full">
