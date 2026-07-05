@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { ArrowRight, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowUpRight, Briefcase, GraduationCap, MapPin, X } from "lucide-react";
+import Reveal from "@/components/anim/Reveal";
 
 interface JobDescription {
   title: string;
@@ -133,96 +134,104 @@ interface JobModalProps {
 }
 
 const JobModal = ({ job, onClose }: JobModalProps) => {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
+    if (e.target === e.currentTarget) onClose();
   };
 
   const mailtoLink = `mailto:info@ubersoftinc.com?subject=${encodeURIComponent(job.title)} - First/Last Name`;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 animate-backdrop-in"
       onClick={handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      aria-label={job.title}
     >
-      <div className="relative bg-background border border-border max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-muted-foreground hover:text-foreground transition-colors"
-          aria-label="Close modal"
-        >
-          <X className="w-6 h-6" />
-        </button>
-
-        <div className="p-8">
-          <div className="mb-6">
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-2">
-              {job.title}
-            </h2>
-            <div className="flex gap-3 text-sm">
-              <span className="px-3 py-1 bg-gold/10 text-gold border border-gold/20">
+      <div className="relative glass rounded-2xl max-w-4xl w-full max-h-[88vh] overflow-y-auto animate-modal-in shadow-2xl shadow-black/60">
+        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 px-8 pt-8 pb-5 bg-gradient-to-b from-card via-card/95 to-transparent">
+          <div>
+            <h2 className="font-display text-2xl md:text-3xl font-bold mb-3">{job.title}</h2>
+            <div className="flex flex-wrap gap-2 text-xs font-medium">
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-gold/10 text-gold border border-gold/25">
+                <Briefcase className="w-3.5 h-3.5" />
                 {job.type}
               </span>
-              <span className="px-3 py-1 bg-muted text-muted-foreground border border-border">
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-secondary text-muted-foreground border border-border">
+                <MapPin className="w-3.5 h-3.5" />
                 {job.location}
               </span>
             </div>
           </div>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+            aria-label="Close modal"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-3">
-                Job Description
+        <div className="px-8 pb-8 space-y-8">
+          <div>
+            <h3 className="font-display text-lg font-semibold mb-3">Job Description</h3>
+            <ul className="space-y-2.5">
+              {job.description.map((item, index) => (
+                <li key={index} className="flex gap-3 text-muted-foreground text-sm leading-relaxed">
+                  <span className="text-gold mt-0.5">▸</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-lg font-semibold mb-3">Skills & Qualifications</h3>
+            <ul className="space-y-2.5">
+              {job.skills.map((skill, index) => (
+                <li key={index} className="flex gap-3 text-muted-foreground text-sm leading-relaxed">
+                  <span className="text-gold mt-0.5">▸</span>
+                  <span>{skill}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="rounded-xl border border-border bg-secondary/50 p-5">
+              <h3 className="flex items-center gap-2 font-display text-base font-semibold mb-1.5">
+                <Briefcase className="w-4 h-4 text-gold" />
+                Experience
               </h3>
-              <ul className="space-y-2">
-                {job.description.map((item, index) => (
-                  <li key={index} className="flex gap-2 text-muted-foreground text-sm">
-                    <span className="text-gold mt-1">•</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <p className="text-muted-foreground text-sm">{job.experience}</p>
             </div>
-
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-3">
-                Skills & Qualifications
+            <div className="rounded-xl border border-border bg-secondary/50 p-5">
+              <h3 className="flex items-center gap-2 font-display text-base font-semibold mb-1.5">
+                <GraduationCap className="w-4 h-4 text-gold" />
+                Education
               </h3>
-              <ul className="space-y-2">
-                {job.skills.map((skill, index) => (
-                  <li key={index} className="flex gap-2 text-muted-foreground text-sm">
-                    <span className="text-gold mt-1">•</span>
-                    <span>{skill}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  Experience
-                </h3>
-                <p className="text-muted-foreground text-sm">{job.experience}</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  Education
-                </h3>
-                <p className="text-muted-foreground text-sm">{job.education}</p>
-              </div>
+              <p className="text-muted-foreground text-sm">{job.education}</p>
             </div>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-border">
-            <a
-              href={mailtoLink}
-              className="inline-block w-full text-center bg-gold text-section-dark font-semibold px-10 py-4 hover:bg-gold/90 transition-colors text-sm uppercase tracking-wider"
-            >
-              Apply Now
-            </a>
-          </div>
+          <a
+            href={mailtoLink}
+            className="btn-shine block w-full text-center rounded-full bg-gold text-primary-foreground font-semibold px-10 py-4 text-sm uppercase tracking-wider transition-all duration-300 hover:shadow-[0_0_32px_hsl(43_96%_56%/0.4)]"
+          >
+            Apply Now
+          </a>
         </div>
       </div>
     </div>
@@ -234,55 +243,73 @@ const CareersSection = () => {
 
   return (
     <>
-      <section id="careers" className="py-24 bg-section-light">
-        <div className="container mx-auto px-4">
+      <section id="careers" className="relative py-28 overflow-hidden">
+        <div className="absolute inset-0 bg-secondary/30" aria-hidden="true" />
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent"
+          aria-hidden="true"
+        />
+
+        <div className="container mx-auto px-4 relative">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-gold font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-              Join Our Team
-            </p>
-            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
-              Career @ Ubersoft
-            </h2>
-            <p className="mt-6 text-muted-foreground">
-              We're always looking for talented individuals to join our growing team.
-              Check out our current openings below.
-            </p>
+            <Reveal>
+              <p className="text-gold font-semibold text-sm tracking-[0.25em] uppercase mb-4">Join Our Team</p>
+            </Reveal>
+            <Reveal delay={100}>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight">
+                Career @ <span className="text-gradient-gold">Ubersoft</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={200}>
+              <p className="mt-6 text-muted-foreground">
+                We're always looking for talented individuals to join our growing team.
+                Check out our current openings below.
+              </p>
+            </Reveal>
           </div>
 
           <div className="max-w-3xl mx-auto space-y-4">
-            {jobs.map((job) => (
-              <div
-                key={job.title}
-                onClick={() => setSelectedJob(job)}
-                className="flex items-center justify-between p-6 bg-background border border-border hover:border-gold transition-colors group cursor-pointer"
-              >
-                <div>
-                  <h3 className="font-semibold text-foreground text-lg group-hover:text-gold transition-colors">
-                    {job.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm mt-1">
-                    {job.type} · {job.location}
-                  </p>
-                </div>
-                <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-gold group-hover:translate-x-1 transition-all" />
-              </div>
+            {jobs.map((job, i) => (
+              <Reveal key={job.title} delay={i * 100}>
+                <button
+                  onClick={() => setSelectedJob(job)}
+                  className="w-full text-left flex items-center justify-between gap-4 p-6 rounded-2xl bg-card border border-border hover:border-gold/40 hover:bg-secondary/60 transition-all duration-300 group hover:-translate-y-0.5 hover:shadow-[0_8px_32px_hsl(43_96%_56%/0.08)]"
+                >
+                  <div className="flex items-center gap-5">
+                    <span className="font-mono text-sm text-gold/60 group-hover:text-gold transition-colors w-8">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <h3 className="font-display font-semibold text-lg group-hover:text-gold transition-colors">
+                        {job.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm mt-1">
+                        {job.type} · {job.location}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="shrink-0 w-10 h-10 rounded-full border border-border flex items-center justify-center transition-all duration-300 group-hover:border-gold group-hover:bg-gold group-hover:rotate-45">
+                    <ArrowUpRight className="w-4 h-4 text-muted-foreground transition-colors group-hover:text-primary-foreground" />
+                  </span>
+                </button>
+              </Reveal>
             ))}
           </div>
 
-          <div className="text-center mt-12">
-            <a
-              href="mailto:careers@ubersoftinc.com"
-              className="inline-block bg-gold text-section-dark font-semibold px-10 py-4 hover:bg-gold/90 transition-colors text-sm uppercase tracking-wider"
-            >
-              Apply Now
-            </a>
-          </div>
+          <Reveal delay={400}>
+            <div className="text-center mt-12">
+              <a
+                href="mailto:careers@ubersoftinc.com"
+                className="btn-shine inline-block rounded-full bg-gold text-primary-foreground font-semibold px-10 py-4 text-sm uppercase tracking-wider transition-all duration-300 hover:shadow-[0_0_32px_hsl(43_96%_56%/0.4)] hover:-translate-y-0.5"
+              >
+                Apply Now
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {selectedJob && (
-        <JobModal job={selectedJob} onClose={() => setSelectedJob(null)} />
-      )}
+      {selectedJob && <JobModal job={selectedJob} onClose={() => setSelectedJob(null)} />}
     </>
   );
 };
